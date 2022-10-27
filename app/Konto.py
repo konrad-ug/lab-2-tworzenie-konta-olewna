@@ -19,4 +19,22 @@ class Konto:
         if self.kod_rabatowy=="PROM_ABC":
             if self.rok_urodzenia > 1960:
                 self.saldo+=50
-                
+        
+    def zaksieguj_przelew_wychodzacy(self,kwota):
+        if self.saldo-kwota>=0:
+            self.saldo -= kwota
+
+    def zaksieguj_przelew_przychodzacy(self,kwota):
+        self.saldo += kwota
+
+    def przelew_ekspresowy(self,kwota):
+        self.saldo = self.saldo-kwota-1 if self.saldo>=kwota else "Saldo nie moze byc na minusie"
+
+class Konto_firmowe(Konto):
+    def __init__(self,nazwa_firmy,nip):
+        self.nazwa_firmy = nazwa_firmy
+        self.saldo = 0
+        self.nip = nip if len(nip) == 10 else "Niepoprawny NIP!"
+
+    def przelew_ekspresowy(self,kwota):
+        self.saldo = self.saldo - kwota -5 if self.saldo>=kwota else "Saldo nie moze byc na minusie"
