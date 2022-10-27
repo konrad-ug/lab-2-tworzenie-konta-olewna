@@ -19,3 +19,4 @@ class Konto:
         if self.kod_rabatowy=="PROM_ABC":
             if self.rok_urodzenia > 1960:
                 self.saldo+=50
+                
