@@ -38,3 +38,6 @@ class Konto_firmowe(Konto):
 
     def przelew_ekspresowy(self,kwota):
         self.saldo = self.saldo - kwota -5 if self.saldo>=kwota else "Saldo nie moze byc na minusie"
+
+    def puste(self):
+        pass
