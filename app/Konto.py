@@ -39,6 +39,20 @@ class Konto:
         else:
             self.saldo = "Saldo nie moze byc na minusie"
         # self.saldo = self.saldo-kwota+oplata_ekspres if self.saldo>=kwota else "Saldo nie moze byc na minusie"
+    
+    def zaciagnij_kredyt(self,kwota):
+        if (len(self.historia) >= 3):
+            if (self.historia[-1]>0 and self.historia[-2]>0 and self.historia[-3]>0):
+                self.saldo+=kwota
+                return True
+            elif (len(self.historia)>=5 and sum(self.historia[-5:])>kwota):
+                self.saldo+=kwota
+                return True
+            else:
+                return False
+        else:
+            return False
+
 
 class Konto_firmowe(Konto):
     def __init__(self,nazwa_firmy,nip):
