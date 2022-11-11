@@ -28,7 +28,7 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertListEqual(self.konto.historia,[100,-100,-1])
 
     def test_udany_zapisywanie_przelewu_ekspresowego_firma(self):
-        self.konto_firma = self.konto_firmowe(self.nazwa_firmy,self.nip)
+        self.konto_firma = Konto_firmowe(self.nazwa_firmy,self.nip)
         self.konto_firma.zaksieguj_przelew_przychodzacy(100)
         self.konto_firma.przelew_ekspresowy(100)
         self.assertListEqual(self.konto_firma.historia,[100,-100,-5])

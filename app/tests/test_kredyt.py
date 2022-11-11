@@ -1,5 +1,5 @@
 import unittest
-import parameterized
+from parameterized import parameterized, parameterized_class
 
 from ..Konto import *
 
@@ -13,14 +13,14 @@ class TestCreateBankAccount(unittest.TestCase):
     def setUp(self):
         self.konto = Konto(self.imie,self.nazwisko,self.pesel)
 
-    @parameterized([
+    @parameterized.expand([
         ([-69,777,420,2137,123],2000,2000),
     ])
 
     def test_kredyt_udany_wariant_a(self,historia,kwota,saldo):
         self.konto.historia = historia
-        self.assertTrue(self.self.konto.zaciagnij_kredyt(kwota))
-        self.assertEqual(self.self.konto.saldo,saldo)
+        self.assertTrue(self.konto.zaciagnij_kredyt(kwota))
+        self.assertEqual(self.konto.saldo,saldo)
 
     def test_kredyt_udany_wariant_b(self):
         self.konto.historia = [-69,777,420,2137,-123]
