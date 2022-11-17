@@ -40,16 +40,18 @@ class Konto:
             self.saldo = "Saldo nie moze byc na minusie"
         # self.saldo = self.saldo-kwota+oplata_ekspres if self.saldo>=kwota else "Saldo nie moze byc na minusie"
     
+    def kredyt_wariant_a(self):
+        if (len(self.historia) >= 3 and self.historia[-1]>0 and self.historia[-2]>0 and self.historia[-3]>0):
+            return True
+
+    def kredyt_wariant_b(self,kwota):
+        if (len(self.historia)>=5 and sum(self.historia[-5:])>kwota):
+            return True
+
     def zaciagnij_kredyt(self,kwota):
-        if (len(self.historia) >= 3):
-            if (self.historia[-1]>0 and self.historia[-2]>0 and self.historia[-3]>0):
-                self.saldo+=kwota
-                return True
-            elif (len(self.historia)>=5 and sum(self.historia[-5:])>kwota):
-                self.saldo+=kwota
-                return True
-            else:
-                return False
+        if self.kredyt_wariant_a() or self.kredyt_wariant_b(kwota):
+            self.saldo += kwota
+            return True
         else:
             return False
 
@@ -70,4 +72,19 @@ class Konto_firmowe(Konto):
         else:
             self.saldo="Saldo nie moze byc na minusie"
         # self.saldo = self.saldo - kwota + oplata_ekpres if self.saldo>=kwota else "Saldo nie moze byc na minusie"
+
+    def kredyt_wariant_a(self,kwota):
+        if self.saldo>kwota*2:
+            return True
+
+    def kredyt_wariant_b(self):
+        if -1775 in self.historia:
+            return True
+
+    def zaciagnij_kredyt(self, kwota):
+        if self.kredyt_wariant_a(kwota) and self.kredyt_wariant_b():
+            self.saldo+=kwota
+            return True
+        else:
+            return False
 
