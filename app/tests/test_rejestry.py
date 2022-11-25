@@ -18,20 +18,19 @@ class TestRejestry(unittest.TestCase):
     def tearDownClass(cls):
         RejestrKont.lista_kont = []
 
-    def test_dodanie_konta(self):
-        konto = Konto(self.imie,self.nazwisko,self.pesel)
-        RejestrKont.dodaj_konto(konto)
+    def test_dodanie_drugiego_konta(self):
+        RejestrKont.dodaj_konto(self.konto)
         self.assertEqual(RejestrKont.ile_kont(),2)
 
-    def test_dodanie_konta_2(self):
+    def test_dodanie_trzeciego_konta(self):
         konto = Konto(self.imie,self.nazwisko,self.pesel2)
         RejestrKont.dodaj_konto(konto)
         self.assertEqual(RejestrKont.ile_kont(),3)
 
     def test_znajdz_konto_po_peselu(self):
-        konto = RejestrKont.wyszukaj_konto_po_peselu("11111111111")
-        self.assertEqual(konto, "11111111111")
+        znalezione_konto = RejestrKont.wyszukaj_konto_po_peselu("01234567890")
+        self.assertEqual(znalezione_konto, self.konto )
 
     def test_nieznajdz_konto_po_peselu(self):
-        konto = RejestrKont.wyszukaj_konto_po_peselu("12111111111")
-        self.assertEqual(konto, None)
+        znalezione_konto = RejestrKont.wyszukaj_konto_po_peselu("12111111111")
+        self.assertEqual(znalezione_konto, None)

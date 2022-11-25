@@ -1,10 +1,10 @@
-from app.Konto import Konto
+# from app.Konto import Konto
 
 class RejestrKont():
     lista_kont = []
 
     @classmethod
-    def dodaj_konto(cls,konto: Konto):
+    def dodaj_konto(cls,konto):
         cls.lista_kont.append(konto)
 
     @classmethod
