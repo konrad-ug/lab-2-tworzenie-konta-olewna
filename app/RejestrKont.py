@@ -26,9 +26,9 @@ class RejestrKont():
     def zaaktualizuj_konto_po_peselu(cls,pesel,nowe_dane):
         konto = cls.wyszukaj_konto_po_peselu(pesel)
         if konto != None:
-            konto.imie = dane['imie'] if 'imie' in dane else konto.imie
-            konto.nazwisko = dane['nazwisko'] if 'nazwisko' in dane else konto.nazwisko
-            konto.saldo = dane['saldo'] if 'saldo' in dane else konto.saldo
+            konto.imie = nowe_dane['imie'] if 'imie' in nowe_dane else konto.imie
+            konto.nazwisko = nowe_dane['nazwisko'] if 'nazwisko' in  nowe_dane else konto.nazwisko
+            konto.saldo = nowe_dane['saldo'] if 'saldo' in nowe_dane else konto.saldo
         return konto
     
     @classmethod
