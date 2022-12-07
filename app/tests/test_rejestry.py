@@ -34,3 +34,17 @@ class TestRejestry(unittest.TestCase):
     def test_nieznajdz_konto_po_peselu(self):
         znalezione_konto = RejestrKont.wyszukaj_konto_po_peselu("12111111111")
         self.assertEqual(znalezione_konto, None)
+
+    def test_aktualizuj_konto_po_peselu(self):
+        konto = Konto(self.imie,self.nazwisko,"09876543211")
+        dodaj_konto = RejestrKont.dodaj_konto(konto)
+        self.assertEqual(dodaj_konto, konto)
+        konto_do_aktualizacji = RejestrKont.zaaktualizuj_konto_po_peselu("09876543211",{"imie":"Bartek","saldo":17})
+        self.assertEqual(konto_do_aktualizacji,{"imie":"Bartek","nazwisko":"Januszewski","pesel":"09876543211","saldo":17})
+
+    def test_usuwanie_konta_po_peselu(self):
+        ile_kont = RejestrKont.ile_kont()
+        usunięte_konto = RejestrKont.usun_konto_po_peselu('09876543211')
+        bez_usuniętego = RejestrKont.ile_kont()
+        self.assertEqual(usunięte_konto, None)
+        self.assertEqual(ile_kont,bez_usuniętego)

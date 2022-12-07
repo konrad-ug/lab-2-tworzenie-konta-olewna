@@ -33,10 +33,24 @@ class TestApi(unittest.TestCase):
         self.assertEqual(get_res.status_code, 404)
     
     def test_zmien_dane_konta_z_podanym_peselem(self):
-        put_res = requests.put(self.url + "/konta/konto/zmien_dane", self.body2)
+        put_res = requests.put(self.url + "/konta/konto/" + self.body["pesel"], self.body2)
         self.assertEqual(put_res.status_code, 204)
-        get_res = requests.get(self.url + f"/konta/konto/{self.body['pesel']}").json()
+        get_res = requests.get(self.url + f"/konta/konto/{self.body['pesel']}")
+        self.assertEqual(get_res.status_code,200)
+        get_res = get_res.json()
         self.assertEqual(get_res["imie"],self.body2["imie"])
         self.assertEqual(get_res["nazwisko"], self.body2["nazwisko"])
         self.assertEqual(get_res["saldo"], self.body2["saldo"])
         
+    def test_usun_konto_z_podanym_peselem(self):
+        ilosc_kont_przed_usunieciem = int(requests.get(self.url + "/konta/ile_kont").json())
+        del_res = requests.delete(self.url + "konta/konto/" +self.body['pesel'])
+        self.assertEqual(del_res.status_code,200)
+        ilosc_kont_po_usunieciem = int(requests.get(self.url + "/konta/ile_kont").json())
+        self.assertEqual(ilosc_kont_przed_usunieciem-1,ilosc_kont_po_usunieciem)
+
+    def test_tworzenie_konta_ktore_istnieje(self):
+        stworz_res = requests.post(self.url + "/konta/stworz_konto", json=self.body)
+        self.assertEqual(stworz_res.status_code, 201)
+        stworz2_res = requests.post(self.url + "/konta/stworz_konto", json=self.body)
+        self.assertEqual(stworz2_res,400)

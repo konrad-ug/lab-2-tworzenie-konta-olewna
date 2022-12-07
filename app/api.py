@@ -9,8 +9,10 @@ def stworz_konto():
     dane = request.get_json()
     print(f"Request o stworzenie konta z danymi: {dane}")
     konto = Konto(dane["imie"], dane["nazwisko"], dane["pesel"])
-    RejestrKont.dodaj_konto(konto)
-    return jsonify("Konto stworzone"), 201
+    if RejestrKont.dodaj_konto(konto) != None:
+        return jsonify("Konto stworzone"), 201
+    else:
+        return jsonify("Konto już istnieje"), 400
 
 @app.route("/konta/ile_kont", methods=['GET'])
 def ile_kont():
@@ -24,16 +26,19 @@ def wyszukaj_konto_z_peselem(pesel):
     szukane_konto = RejestrKont.wyszukaj_konto_po_peselu(pesel)
     if szukane_konto:
         return jsonify(szukane_konto["imie"], szukane_konto["nazwisko"]), 200
-    return jsonify("Account not found"), 404
+    return jsonify("Nie znaleziono konta"), 404
 
 @app.route("/konta/konto/<pesel>", methods=['PUT'])
 def aktualizuj_dane_konta_z_podanym_peselem(pesel):
+    print("Request o update w koncie z podanym numerem pesel")
     dane = request.get_json()
-    szukane_konto = RejestrKont.wyszukaj_konto_po_peselu(pesel)
-    if szukane_konto:
-        szukane_konto["imie"] = dane["imie"]
-        szukane_konto["nazwisko"] = dane["nazwisko"]
-        szukane_konto["saldo"] = dane["saldo"]
-        return jsonify(szukane_konto), 204
-    return jsonify("Account not found"), 404
+    szukane_konto = RejestrKont.zaaktualizuj_konto_po_peselu(pesel,dane)
+    if szukane_konto != None:
+        return jsonify(szukane_konto), 200
+    return jsonify("Nie znaleziono konta"), 404
     
+@app.route("/konta/konto/<pesel>", methods=['DELETE'])
+def usun_konto_z_podanym_peselem(pesel):
+    print("Request o usuniecie konta z podanym peselem")
+    RejestrKont.usun_konto_po_peselu(pesel)
+    return jsonify("Usunięto konto z podanym peselem"), 200
