@@ -55,10 +55,10 @@ class TestRejestry(unittest.TestCase):
         self.assertEqual(dodaj_konto, None)
 
     def test_usuwanie_konta_po_peselu(self):
-        konto = Konto(self.imie,self.nazwisko,"09876543211")
+        konto = Konto(self.imie,self.nazwisko,"09876543212")
         RejestrKont.dodaj_konto(konto)
         ile_kont = RejestrKont.ile_kont()
-        usunięte_konto = RejestrKont.usun_konto_po_peselu('09876543211')
+        usunięte_konto = RejestrKont.usun_konto_po_peselu('09876543212')
         self.assertEqual(usunięte_konto, konto)
         bez_usuniętego = RejestrKont.ile_kont()
         self.assertEqual(ile_kont-1,bez_usuniętego)
