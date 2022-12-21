@@ -1,5 +1,6 @@
 import unittest
 import requests
+import datetime
 
 class TestApi(unittest.TestCase):
     body = {
@@ -54,3 +55,6 @@ class TestApi(unittest.TestCase):
         self.assertEqual(stworz_res.status_code, 201)
         stworz2_res = requests.post(self.url + "/konta/stworz_konto", json=self.body)
         self.assertEqual(stworz2_res,400)
+
+    def test_sprawdzanie_czy_nip_istnieje(self):
+        get_nip_res = requests.get(f"https://wl-test.mf.gov.pl/8461627563?{datetime.date.today().strftime('%d-%m-%Y')}/api/search/nip/8461627563")

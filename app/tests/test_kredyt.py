@@ -1,7 +1,7 @@
 import unittest
 from parameterized import parameterized, parameterized_class
 
-from ..Konto import *
+from ..Konto import Konto
 
 class TestCreateBankAccount(unittest.TestCase):
     kod = "PROM_ABC"

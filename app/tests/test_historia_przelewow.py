@@ -1,14 +1,14 @@
 import unittest
+from unittest import mock
 
-from ..Konto import *
+from ..Konto import Konto
+from ..Konto_firmowe import Konto_firmowe
 
-class TestCreateBankAccount(unittest.TestCase):
+class TestHistoryOfAccount(unittest.TestCase):
     kod = "PROM_ABC"
     imie = "Dariusz"
     nazwisko = "Januszewski"
     pesel = "01234567890"
-    nazwa_firmy = "Zabka"
-    nip = "0123456789"
 
     def setUp(self):
         self.konto = Konto(self.imie,self.nazwisko,self.pesel)
@@ -27,10 +27,27 @@ class TestCreateBankAccount(unittest.TestCase):
         self.konto.przelew_ekspresowy(100)
         self.assertListEqual(self.konto.historia,[100,-100,-1])
 
-    def test_udany_zapisywanie_przelewu_ekspresowego_firma(self):
+
+class TestHistoryOfCompany(unittest.TestCase):
+    nazwa_firmy = "Januszex"
+    nip = "8461627563"
+
+    @mock.patch.object(Konto_firmowe, 'request_api_gov', return_value=True)
+    def setUp(self,mock):
         self.konto_firma = Konto_firmowe(self.nazwa_firmy,self.nip)
+
+
+    def test_przelew_przychodzacy_firma(self):
+        self.konto_firma.zaksieguj_przelew_przychodzacy(1000)
+        self.assertListEqual(self.konto_firma.historia,[1000])
+
+    def test_przelew_wychodzacy_firma(self):
+        self.konto_firma.zaksieguj_przelew_przychodzacy(1000)
+        self.konto_firma.zaksieguj_przelew_wychodzacy(100)
+        self.konto_firma.zaksieguj_przelew_wychodzacy(600)
+        self.assertListEqual(self.konto_firma.historia,[1000,-100,-600])
+
+    def test_przelew_ekspresowy_firma(self):
         self.konto_firma.zaksieguj_przelew_przychodzacy(100)
         self.konto_firma.przelew_ekspresowy(100)
         self.assertListEqual(self.konto_firma.historia,[100,-100,-5])
-
-    

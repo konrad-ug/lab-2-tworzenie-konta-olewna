@@ -1,6 +1,7 @@
 import unittest
 
-from ..Konto import *
+from ..Konto import Konto
+
 
 class TestCreateBankAccount(unittest.TestCase):
     kod = "PROM_ABC"
@@ -70,22 +71,6 @@ class TestCreateBankAccount(unittest.TestCase):
         konto.zaksieguj_przelew_przychodzacy(800)
         self.assertEqual(konto.saldo,1000+800)
 
-    def test_udane_tworzenie_konta_firmowego(self):
-        nip = "0123456789"
-        konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)
-        self.assertEqual(konto_firmowe.nazwa_firmy,self.nazwa_firmy)
-        self.assertEqual(konto_firmowe.nip,nip)
-
-    def test_tworzenie_konta_firmowego_dlugi_nip(self):
-        nip = "01234567895426"
-        konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)
-        self.assertEqual(konto_firmowe.nip,"Niepoprawny NIP!")
-    
-    def test_tworzenie_konta_firmowego_krotki_nip(self):
-        nip = "012345"
-        konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)
-        self.assertEqual(konto_firmowe.nip,"Niepoprawny NIP!")
-
     def test_udany_przelew_ekspresowy_konto(self):
         pesel = "01234567890"
         konto = Konto(self.imie,self.nazwisko,pesel)
@@ -99,17 +84,3 @@ class TestCreateBankAccount(unittest.TestCase):
         konto.saldo = 200
         konto.przelew_ekspresowy(210)
         self.assertEqual(konto.saldo,"Saldo nie moze byc na minusie")
-
-    def test_udany_przelew_ekspresowy_firma(self):
-        nip = "0123456789"    
-        konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)    
-        konto_firmowe.saldo = 1000
-        konto_firmowe.przelew_ekspresowy(1000)
-        self.assertEqual(konto_firmowe.saldo,1000-1000-5)
-
-    def test_nieudany_przelew_ekspresowy_firma(self):
-        nip = "0123456789"    
-        konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)    
-        konto_firmowe.saldo = 1000
-        konto_firmowe.przelew_ekspresowy(2000)
-        self.assertEqual(konto_firmowe.saldo,"Saldo nie moze byc na minusie")
