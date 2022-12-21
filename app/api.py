@@ -42,3 +42,4 @@ def usun_konto_z_podanym_peselem(pesel):
     print("Request o usuniecie konta z podanym peselem")
     RejestrKont.usun_konto_po_peselu(pesel)
     return jsonify("Usunięto konto z podanym peselem"), 200
+
