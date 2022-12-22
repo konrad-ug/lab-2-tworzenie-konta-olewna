@@ -5,7 +5,7 @@ from ..Konto_firmowe import Konto_firmowe
 class TestCreateCompanyAccount(unittest.TestCase):
     nazwa_firmy = "Januszex"
     nip = "8461627563"
-    fake_nip = "0000000000"
+    fake_nip = "101010101"
 
     @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=True)
     def test_udane_tworzenie_konta_firmowego(self,mock):
@@ -26,4 +26,4 @@ class TestCreateCompanyAccount(unittest.TestCase):
     @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=False)
     def test_tworzenie_konta_firmowego_pranie(self,mock):
         konto_firmowe = Konto_firmowe(self.nazwa_firmy,self.fake_nip)
-        self.assertEqual(konto_firmowe.nip, "Pranie!")
+        self.assertEqual(konto_firmowe.nip, "Niepoprawny NIP!")
