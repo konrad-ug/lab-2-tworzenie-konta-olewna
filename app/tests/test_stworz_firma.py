@@ -1,5 +1,5 @@
 import unittest
-from unittest import mock
+from unittest.mock import patch
 from ..Konto_firmowe import Konto_firmowe
 
 class TestCreateCompanyAccount(unittest.TestCase):
@@ -7,7 +7,7 @@ class TestCreateCompanyAccount(unittest.TestCase):
     nip = "8461627563"
     fake_nip = "8461627565"
 
-    @mock.patch.object(Konto_firmowe, 'request_api_gov', return_value=True)
+    @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=True)
     def test_udane_tworzenie_konta_firmowego(self,mock):
         konto_firmowe = Konto_firmowe(self.nazwa_firmy,self.nip)
         self.assertEqual(konto_firmowe.nazwa_firmy,self.nazwa_firmy)
@@ -23,7 +23,7 @@ class TestCreateCompanyAccount(unittest.TestCase):
         konto_firmowe = Konto_firmowe(self.nazwa_firmy,nip)
         self.assertEqual(konto_firmowe.nip,"Niepoprawny NIP!")
 
-    @mock.patch.object(Konto_firmowe, 'request_api_gov', return_value=False)
+    @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=False)
     def test_tworzenie_konta_firmowego_pranie(self,mock):
         konto_firmowe = Konto_firmowe(self.nazwa_firmy,self.fake_nip)
         self.assertEqual(konto_firmowe.nip, "Pranie!")
