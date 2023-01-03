@@ -3,7 +3,7 @@ import requests
 import os
 from datetime import date
 
-class Konto_firmowe(Konto):
+class Konto_firmowe(Konto): # pragma: no cover
     def __init__(self,nazwa_firmy,nip):
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
