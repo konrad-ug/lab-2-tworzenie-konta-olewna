@@ -37,10 +37,10 @@ class Konto_firmowe(Konto):
 
     def walidacja_nip(self,nip):
         if len(nip) == 10:
-            if self.czy_nip_istnieje(nip) is None:
-                self.nip = "Pranie!"
-            else:
+            if self.czy_nip_istnieje(nip):
                 self.nip = nip
+            else:
+                self.nip = "Pranie!"
         else:
             self.nip = "Niepoprawny NIP!"
 

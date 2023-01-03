@@ -51,3 +51,8 @@ class TestHistoryOfCompany(unittest.TestCase):
         self.konto_firma.zaksieguj_przelew_przychodzacy(100)
         self.konto_firma.przelew_ekspresowy(100)
         self.assertListEqual(self.konto_firma.historia,[100,-100,-5])
+
+    def test_nieudany_przelew_ekspresowy_firma(self):
+        self.konto_firma.zaksieguj_przelew_przychodzacy(90)
+        self.konto_firma.przelew_ekspresowy(100)
+        self.assertEqual(self.konto_firma.saldo,"Saldo nie moze byc na minusie")
