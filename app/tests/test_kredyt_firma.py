@@ -1,5 +1,5 @@
 import unittest
-from unittest import mock
+from unittest.mock import patch
 from parameterized import parameterized
 from ..Konto_firmowe import Konto_firmowe
 
@@ -7,8 +7,8 @@ class TestCreateBankAccount(unittest.TestCase):
     nazwa_firmy = "Zabka"
     nip = "8461627563"
 
-    @mock.patch.object(Konto_firmowe, 'request_api_gov', return_value=True)
-    def setUp(self):
+    @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=True)
+    def setUp(self,mock):
         self.konto_firma = Konto_firmowe(self.nazwa_firmy,self.nip)
 
     @parameterized.expand([

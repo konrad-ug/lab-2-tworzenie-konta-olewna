@@ -1,5 +1,5 @@
 import unittest
-from unittest import mock
+from unittest.mock import patch
 
 from ..Konto import Konto
 from ..Konto_firmowe import Konto_firmowe
@@ -32,7 +32,7 @@ class TestHistoryOfCompany(unittest.TestCase):
     nazwa_firmy = "Januszex"
     nip = "8461627563"
 
-    @mock.patch.object(Konto_firmowe, 'request_api_gov', return_value=True)
+    @patch('app.Konto_firmowe.Konto_firmowe.request_api_gov', return_value=True)
     def setUp(self,mock):
         self.konto_firma = Konto_firmowe(self.nazwa_firmy,self.nip)
 
@@ -51,3 +51,8 @@ class TestHistoryOfCompany(unittest.TestCase):
         self.konto_firma.zaksieguj_przelew_przychodzacy(100)
         self.konto_firma.przelew_ekspresowy(100)
         self.assertListEqual(self.konto_firma.historia,[100,-100,-5])
+
+    def test_nieudany_przelew_ekspresowy_firma(self):
+        self.konto_firma.zaksieguj_przelew_przychodzacy(90)
+        self.konto_firma.przelew_ekspresowy(100)
+        self.assertEqual(self.konto_firma.saldo,"Saldo nie moze byc na minusie")

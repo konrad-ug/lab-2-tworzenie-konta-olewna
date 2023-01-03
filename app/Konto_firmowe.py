@@ -3,12 +3,12 @@ import requests
 import os
 from datetime import date
 
-class Konto_firmowe(Konto):
+class Konto_firmowe(Konto): # pragma: no cover
     def __init__(self,nazwa_firmy,nip):
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
         self.historia = []
-        self.nip = nip if len(nip) == 10 else "Niepoprawny NIP!"
+        self.walidacja_nip(nip)
 
     def przelew_ekspresowy(self,kwota):
         oplata_ekpres = -5
@@ -38,18 +38,18 @@ class Konto_firmowe(Konto):
     def walidacja_nip(self,nip):
         if len(nip) == 10:
             if self.czy_nip_istnieje(nip):
-                return nip
+                self.nip = nip
             else:
-                return "Pranie!"
+                self.nip = "Pranie!"
         else:
-            return "Niepoprawny nip"
+            self.nip = "Niepoprawny NIP!"
 
     @classmethod
     def czy_nip_istnieje(cls,nip):
         gov = os.getenv('BANK_APP_MF_URL', 'https://wl-test.mf.gov.pl/')
         data = date.today()
         url = f"{gov}api/search/nip/{nip}?date={data}"
-        return cls.request_api_gov
+        return cls.request_api_gov(url)
 
     @classmethod
     def request_api_gov(cls, url):
