@@ -2,5 +2,6 @@
 omit =
     app/api.py
     app/test_api/
+    app/Konto_firmowe.py
     */site-packages/*
     .venv/*
