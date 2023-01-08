@@ -8,6 +8,7 @@ class Konto_firmowe(Konto):
         self.nazwa_firmy = nazwa_firmy
         self.saldo = 0
         self.historia = []
+        self.wiadomosc = "Historia konta Twojej firmy to: "
         self.walidacja_nip(nip)
 
     def przelew_ekspresowy(self,kwota):

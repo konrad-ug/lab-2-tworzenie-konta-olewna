@@ -1,3 +1,5 @@
+from datetime import date
+
 class Konto:
     def __init__(self,imie,nazwisko,pesel,kod_rabatowy=None):
         self.imie = imie
@@ -6,6 +8,7 @@ class Konto:
         self.pesel = pesel
         self.kod_rabatowy=kod_rabatowy
         self.historia = []
+        self.wiadomosc = "Twoja historia konta to: "
         self.rok_urodzenia = int(self.pesel[:2])
         if int(self.pesel[2]) in [8,9]:
             self.rok_urodzenia += 1800
@@ -55,3 +58,10 @@ class Konto:
         else:
             return False
 
+    def wyslij_historie_na_maila(self,adresat,smtp):
+        data = date.today()
+        temat = f"Wyciąg z dnia {data}"
+        tresc = self.wiadomosc + str(self.historia)
+        if smtp.wyslij(temat,tresc,adresat):
+            return True
+        return False
